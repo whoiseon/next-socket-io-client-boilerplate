@@ -28,11 +28,12 @@ module.exports = {
       dropShadow: {
         right: '3px 0 10px rgba(0, 0, 0, 0.01)',
         bottom: '0 3px 10px rgba(0, 0, 0, 0.01)',
+        top: '0 -3px 10px rgba(0, 0, 0, 0.01)',
       },
       fontFamily: {
         pretendard: ['Pretendard', 'ui-sans-serif', 'sans-serif'],
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 };

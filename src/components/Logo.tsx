@@ -1,6 +1,7 @@
 'use client';
 
 import LogoImage from '@/assets/vectors/logo.svg';
+import Link from 'next/link';
 
 interface Props {
   hasText?: boolean;
@@ -15,10 +16,10 @@ function Logo({ hasText = true, size = 'md' }: Props) {
   };
 
   return (
-    <div className="flex items-center gap-1">
+    <Link href="/" className="flex items-center gap-1">
       <LogoImage className={`${sizeMap[size]} text-primary1`} />
       {hasText && <p className="text-primary1 font-bold text-lg">Qplay</p>}
-    </div>
+    </Link>
   );
 }
 

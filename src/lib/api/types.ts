@@ -1,3 +1,9 @@
+export interface User {
+  id: number;
+  username: string;
+  nickname: string;
+}
+
 export interface Room {
   id: number;
   code: string;
@@ -11,6 +17,15 @@ export interface Room {
   managerId: number;
 }
 
+export interface Message {
+  id: number;
+  content: string;
+  userId: number;
+  roomCode: string;
+  timestamp: Date;
+  user: User;
+}
+
 export interface ApiResponse {
   error: string;
 }
@@ -22,4 +37,9 @@ export interface GetRoomResponse extends ApiResponse {
 
 export interface GetRoomUniqueResponse extends ApiResponse {
   data: Room;
+}
+
+export interface GetRoomMessageResponse {
+  totalCount: number;
+  data: Message[];
 }

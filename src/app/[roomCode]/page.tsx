@@ -1,3 +1,6 @@
+import ChatBox from '@/components/ChatBox';
+import ChatTextArea from '@/components/ChatTextArea';
+import HydrateChatBox from '@/components/hydrate/HydrateChatBox';
 import HydrateRoomHeader from '@/components/hydrate/HydrateRoomHeader';
 
 export default function RoomPage({
@@ -5,11 +8,11 @@ export default function RoomPage({
 }: {
   params: { roomCode: string };
 }) {
-  console.log(roomCode);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-1 flex-col">
       <HydrateRoomHeader roomCode={roomCode} />
-      <div className="flex flex-1"></div>
+      <HydrateChatBox roomCode={roomCode} />
+      <ChatTextArea />
     </div>
   );
 }

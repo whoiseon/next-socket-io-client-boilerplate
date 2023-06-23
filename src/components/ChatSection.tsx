@@ -1,7 +1,10 @@
+'use client';
+
 import { useMemo } from 'react';
 import EmptyChatList from './EmptyChatList';
 import { GetRoomResponse } from '@/lib/api/types';
 import ChatCard from './ChatCard';
+import { useParams } from 'next/navigation';
 
 interface Props {
   type: 'all' | 'private';
@@ -21,9 +24,19 @@ const chatTextMap = {
 
 function ChatSection({ type, room }: Props) {
   const { title, emptyMessage } = chatTextMap[type];
+  const params = useParams();
+  const isRoom = params.roomCode ? true : false;
+
   const renderedRoom = useMemo(
-    () => room?.data.map((room) => <ChatCard key={room.id} room={room} />),
-    [room],
+    () =>
+      room?.data.map((room) => (
+        <ChatCard
+          key={room.id}
+          room={room}
+          isCurrentRoom={isRoom && params.roomCode === room.code}
+        />
+      )),
+    [room, isRoom, params.roomCode],
   );
 
   return (

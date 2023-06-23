@@ -8,3 +8,10 @@ export async function fetchGetRooms() {
 
   return data;
 }
+
+export async function fetchGetRoomUnique(code: string) {
+  const response = await fetch(`${baseUrl}/chat/public/room/${code}`);
+  const data = await response.json();
+
+  return data;
+}

@@ -1,4 +1,4 @@
-import RoomHeader from '@/components/RoomHeader';
+import HydrateRoomHeader from '@/components/hydrate/HydrateRoomHeader';
 
 export const metadata = {
   title: 'Create Next App',
@@ -12,9 +12,7 @@ export default function RoomLayout({
 }) {
   return (
     <div className="flex flex-1 flex-col">
-      <RoomHeader />
-      <div className="flex flex-1">{children}</div>
-      <div>2</div>
+      <div>{children}</div>
     </div>
   );
 }

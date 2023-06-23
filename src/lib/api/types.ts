@@ -19,3 +19,7 @@ export interface GetRoomResponse extends ApiResponse {
   totalCount: number;
   data: Room[];
 }
+
+export interface GetRoomUniqueResponse extends ApiResponse {
+  data: Room;
+}

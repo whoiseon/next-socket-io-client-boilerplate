@@ -1,3 +1,6 @@
+import LeftNav from '@/components/LeftNav';
+import Providers from '@/components/Providers';
+import HydrateLeftNav from '@/components/hydrate/HydrateLeftNav';
 import '@/styles/globals.css';
 
 export const metadata = {
@@ -11,9 +14,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className="scroll-smooth antialiased">
-      <body className="bg-bg_page text-text1 min-h-screen font-pretendard overflow-y-auto">
-        {children}
+    <html className="scroll-smooth antialiased min-h-screen">
+      <body className="bg-bg_page text-text1 min-h-screen font-pretendard font-medium overflow-y-auto">
+        <Providers>
+          <div className="app flex min-h-screen">
+            <HydrateLeftNav />
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );

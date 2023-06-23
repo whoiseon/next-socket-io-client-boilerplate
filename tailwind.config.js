@@ -6,13 +6,13 @@ module.exports = {
       colors: {
         bg_page: '#FAFAFA',
         bg_element1: '#FFFFFF',
-        bg_element2: '#F8F9FA',
+        bg_element2: '#F7F8F9',
         bg_element3: '#E9ECEF',
         bg_element4: '#E2E2E2',
         text1: '#121212',
         text2: '#495057',
         text3: '#868E96',
-        text4: '#CDE4CF',
+        text4: '#BBBBBB',
         border1: '#343A40',
         border2: '#A2AAB2',
         border3: '#C7CBCF',
@@ -24,6 +24,10 @@ module.exports = {
         destructive2: '#FC7171',
         button_text: '#FFFFFF',
         placeholder: '#868E96',
+      },
+      dropShadow: {
+        right: '3px 0 10px rgba(0, 0, 0, 0.01)',
+        bottom: '0 3px 10px rgba(0, 0, 0, 0.01)',
       },
       fontFamily: {
         pretendard: ['Pretendard', 'ui-sans-serif', 'sans-serif'],

@@ -43,3 +43,12 @@ export interface GetRoomMessageResponse {
   totalCount: number;
   data: Message[];
 }
+
+export interface ResponseError {
+  name: string;
+  message: string;
+  statusCode: number;
+  payload?: {
+    isExpiredToken: boolean;
+  };
+}

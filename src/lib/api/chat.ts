@@ -4,6 +4,7 @@ export async function fetchGetRooms() {
   const response = await fetch(`${baseUrl}/chat/public`, {
     method: 'GET',
     cache: 'no-cache',
+    credentials: 'include',
   });
   const data = await response.json();
 
@@ -26,6 +27,7 @@ export async function fetchGetRoomMessages(code: string) {
     {
       method: 'GET',
       cache: 'no-cache',
+      credentials: 'include',
     },
   );
   const data = await response.json();

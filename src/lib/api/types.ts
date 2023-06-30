@@ -30,6 +30,11 @@ export interface ApiResponse {
   error: string;
 }
 
+export interface Tokens {
+  access_token: string;
+  refresh_token: string;
+}
+
 export interface GetRoomResponse extends ApiResponse {
   totalCount: number;
   data: Room[];

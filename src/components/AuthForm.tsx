@@ -16,7 +16,7 @@ function AuthForm() {
     mutationFn: fetchLogin,
     onSuccess: () => {
       queryClient.refetchQueries(queryKey.GET_ME);
-      router.push('/');
+      router.back();
     },
     onError: (error) => {
       console.log(error);

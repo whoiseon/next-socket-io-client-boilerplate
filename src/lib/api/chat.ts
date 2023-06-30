@@ -1,5 +1,10 @@
 const baseUrl = 'http://localhost:3060/api';
 
+interface SendMessageParams {
+  roomCode: string;
+  content: string;
+}
+
 export async function fetchGetRooms() {
   const response = await fetch(`${baseUrl}/chat/public`, {
     method: 'GET',
@@ -32,5 +37,17 @@ export async function fetchGetRoomMessages(code: string) {
   );
   const data = await response.json();
 
+  return data;
+}
+
+export async function fetchSendMessage(params: SendMessageParams) {
+  const response = await fetch(`${baseUrl}/chat/private/message`, {
+    method: 'POST',
+    cache: 'no-cache',
+    credentials: 'include',
+    body: JSON.stringify(params),
+  });
+
+  const data = await response.json();
   return data;
 }

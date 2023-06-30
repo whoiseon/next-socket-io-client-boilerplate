@@ -1,5 +1,6 @@
 import Providers from '@/components/Providers';
 import HydrateLeftNav from '@/components/hydrate/HydrateLeftNav';
+import HydrateRoot from '@/components/hydrate/HydrateRoot';
 import '@/styles/globals.css';
 
 export const metadata = {
@@ -16,10 +17,12 @@ export default async function RootLayout({
     <html className="scroll-smooth antialiased min-h-screen">
       <body className="bg-bg_page text-text1 min-h-screen font-pretendard font-medium overflow-y-auto">
         <Providers>
-          <div className="app flex min-h-screen">
-            <HydrateLeftNav />
-            {children}
-          </div>
+          <HydrateRoot>
+            <div className="app flex min-h-screen">
+              <HydrateLeftNav />
+              {children}
+            </div>
+          </HydrateRoot>
         </Providers>
       </body>
     </html>

@@ -10,5 +10,5 @@ export default function RoomLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="flex flex-col flex-1">{children}</div>;
+  return <div className="flex flex-col flex-1 h-full">{children}</div>;
 }

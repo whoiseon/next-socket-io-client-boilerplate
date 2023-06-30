@@ -87,7 +87,7 @@ function ChatBox({}: Props) {
 
   return (
     <>
-      <div className="flex flex-col flex-1 overflow-y-scroll scrollbar-hide p-6 gap-4">
+      <div className="flex flex-1 flex-col p-6 gap-4 overflow-auto">
         {memoizedMessageItem}
       </div>
       <ChatTextArea

@@ -14,11 +14,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className="scroll-smooth antialiased min-h-screen">
-      <body className="bg-bg_page text-text1 min-h-screen font-pretendard font-medium overflow-y-auto">
+    <html className="scroll-smooth antialiased h-full">
+      <body className="bg-bg_page text-text1 h-full font-pretendard font-medium overflow-hidden">
         <Providers>
           <HydrateRoot>
-            <div className="app flex min-h-screen">
+            <div className="app flex h-full">
               <HydrateLeftNav />
               {children}
             </div>

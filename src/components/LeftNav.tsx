@@ -21,7 +21,7 @@ function LeftNav() {
 
   if (pathname === '/login' || pathname === '/register') return null;
   return (
-    <div className="flex flex-col gap-4 bg-bg_element1 drop-shadow-right w-[340px]">
+    <div className="flex flex-col gap-4 bg-bg_element1 drop-shadow-right w-[340px] h-full">
       <div className="header flex justify-between items-center w-full p-4">
         <Logo />
         {meData ? (

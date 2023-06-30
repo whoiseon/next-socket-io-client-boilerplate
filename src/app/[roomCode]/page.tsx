@@ -8,7 +8,7 @@ export default function RoomPage({
   params: { roomCode: string };
 }) {
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-col h-full">
       <HydrateRoomHeader roomCode={roomCode} />
       <HydrateChatBox roomCode={roomCode} />
     </div>

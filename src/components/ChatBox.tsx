@@ -13,9 +13,10 @@ import useInput from '@/lib/hooks/useInput';
 import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
 import useSocket from '@/lib/hooks/useSocket';
 
-interface Props {}
+interface Props { }
 
-function ChatBox({}: Props) {
+function ChatBox({ }: Props)
+{
   const params = useParams();
   const queryClient = useQueryClient();
   const scrollbarRef = useRef<HTMLDivElement>(null);
@@ -34,27 +35,40 @@ function ChatBox({}: Props) {
 
   const { isLoading, mutate } = useMutation({
     mutationFn: fetchSendMessage,
-    onMutate: (value) => {
+    onMutate: (value) =>
+    {
       setSendMessage('');
       scrollbarRef.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'end',
       });
+
+      setTimeout(() =>
+      {
+        if (scrollbarRef.current)
+        {
+          scrollbarRef.current.scrollTop = scrollbarRef.current.scrollHeight;
+        }
+      }, 50);
     },
     // onSettled: () =>
     //   queryClient.invalidateQueries(
     //     queryKey.GET_ROOM_MESSAGES(params.roomCode),
     //   ),
-    onSuccess: () => {
+    onSuccess: () =>
+    {
       queryClient.refetchQueries(queryKey.GET_ROOM_MESSAGES(params.roomCode));
     },
-    onError: (error, value, rollback) => {
+    onError: (error, value, rollback) =>
+    {
       console.log(error);
     },
   });
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) =>
+  {
+    if (e.key === 'Enter' && !e.shiftKey)
+    {
       e.preventDefault();
       mutate({
         roomCode: params.roomCode,
@@ -65,12 +79,16 @@ function ChatBox({}: Props) {
   };
 
   const onMessage = useCallback(
-    (data: SendMessageParams) => {
-      if (data.roomCode === params.roomCode && data.user.id === meData?.id) {
-        socket?.on('chat message', (message) => {
+    (data: SendMessageParams) =>
+    {
+      if (data.roomCode === params.roomCode && data.user.id === meData?.id)
+      {
+        socket?.on('chat message', (message) =>
+        {
           queryClient.setQueryData(
             queryKey.GET_ROOM_MESSAGES(params.roomCode),
-            (prevMessageData: any) => {
+            (prevMessageData: any) =>
+            {
               return {
                 ...prevMessageData,
                 data: [
@@ -96,29 +114,44 @@ function ChatBox({}: Props) {
   );
 
   // socket?.emit('message', value.content);
-  useEffect(() => {
-    socket?.on('hello', (message) => {
+  useEffect(() =>
+  {
+    socket?.on('hello', (message) =>
+    {
       console.log(message);
     });
     socket?.on('message', onMessage);
 
-    return () => {
+    return () =>
+    {
       socket?.off('message', onMessage);
     };
   }, [socket, onMessage]);
 
-  useEffect(() => {
-    if (meData && socket) {
+  useEffect(() =>
+  {
+    if (meData && socket)
+    {
       console.log(socket);
       socket.emit('join', meData.id);
     }
   }, [socket, meData]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(() =>
+  {
+    return () =>
+    {
       disconnect();
     };
   }, [params.roomCode, disconnect]);
+
+  useEffect(() =>
+  {
+    if (scrollbarRef.current)
+    {
+      scrollbarRef.current.scrollTop = scrollbarRef.current.scrollHeight;
+    }
+  }, [scrollbarRef]);
 
   return (
     <>

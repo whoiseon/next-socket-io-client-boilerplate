@@ -1,6 +1,9 @@
+import { User } from './types';
+
 const baseUrl = 'http://localhost:3060/api';
 
-interface SendMessageParams {
+export interface SendMessageParams {
+  user: User;
   roomCode: string;
   content: string;
 }

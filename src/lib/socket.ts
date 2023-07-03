@@ -5,7 +5,9 @@ class Socket {
   private baseUrl: string = 'http://localhost:3060';
 
   constructor() {
-    this.socket = io(this.baseUrl, { transports: ['websocket'] });
+    this.socket = io(this.baseUrl, {
+      transports: ['websocket'],
+    });
     this.setupEventListeners();
   }
 

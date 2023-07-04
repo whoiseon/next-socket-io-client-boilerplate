@@ -3,7 +3,7 @@ import { User } from './types';
 const baseUrl = 'http://localhost:3060/api';
 
 export interface SendMessageParams {
-  user: User;
+  userId: number;
   roomCode: string;
   content: string;
 }

@@ -1,10 +1,12 @@
-export interface User {
+export interface User
+{
   id: number;
   username: string;
   nickname: string;
 }
 
-export interface Room {
+export interface Room
+{
   id: number;
   code: string;
   name: string;
@@ -17,7 +19,8 @@ export interface Room {
   managerId: number;
 }
 
-export interface Message {
+export interface Message
+{
   id: number;
   content: string;
   userId: number;
@@ -26,34 +29,46 @@ export interface Message {
   user: User;
 }
 
-export interface ApiResponse {
+export interface ApiResponse
+{
   error: string;
 }
 
-export interface Tokens {
+export interface Tokens
+{
   access_token: string;
   refresh_token: string;
 }
 
-export interface GetRoomResponse extends ApiResponse {
+export interface GetRoomResponse extends ApiResponse
+{
   totalCount: number;
   data: Room[];
 }
 
-export interface GetRoomUniqueResponse extends ApiResponse {
+export interface GetRoomUniqueResponse extends ApiResponse
+{
   data: Room;
 }
 
-export interface GetRoomMessageResponse {
+export interface GetRoomMessageResponse
+{
   totalCount: number;
   data: Message[];
 }
 
-export interface ResponseError {
+export interface ResponseError
+{
   name: string;
   message: string;
   statusCode: number;
   payload?: {
     isExpiredToken: boolean;
   };
+}
+
+export interface CreateRoomParams
+{
+  name: string;
+  description: string;
 }

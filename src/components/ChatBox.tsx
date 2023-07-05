@@ -2,24 +2,26 @@
 
 import useGetRoomMessages from '@/lib/hooks/useGetRoomMessages';
 import { useParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import MessageItem from './MessageItem';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKey } from '@/lib/query/queryKey';
 import { GetRoomMessageResponse, Message } from '@/lib/api/types';
 import ChatTextArea from './ChatTextArea';
-import {
-  ReceiveMessageParams,
+import
+{
   SendMessageParams,
   fetchSendMessage,
 } from '@/lib/api/chat';
 import useInput from '@/lib/hooks/useInput';
 import { useGetMyAccount } from '@/lib/hooks/useGetMyAccount';
 import useSocket from '@/lib/hooks/useSocket';
+import Scrollbars from 'react-custom-scrollbars-2';
 
-interface Props {}
+interface Props { }
 
-function ChatBox({}: Props) {
+function ChatBox({ }: Props)
+{
   const params = useParams();
   const queryClient = useQueryClient();
   const scrollbarRef = useRef<HTMLDivElement>(null);
@@ -27,6 +29,7 @@ function ChatBox({}: Props) {
   const { data: messages } = useGetRoomMessages(params.roomCode);
   const { data: meData } = useGetMyAccount();
   const [sendMessage, onChangeSendMessage, setSendMessage] = useInput('');
+  const [newChat, setNewChat] = useState<Message | null>(null);
 
   const memoizedMessageItem = useMemo(
     () =>
@@ -36,35 +39,56 @@ function ChatBox({}: Props) {
     [messages],
   );
 
+  const isScrollBottom = () =>
+  {
+    const chatContainer = scrollbarRef.current;
+    if (!chatContainer) return false;
+
+    return (
+      chatContainer.scrollTop + chatContainer.clientHeight >=
+      chatContainer.scrollHeight
+    );
+  };
+
+  const scrollToBottom = useCallback(() =>
+  {
+    if (scrollbarRef.current)
+    {
+      scrollbarRef.current.scrollTop = scrollbarRef.current.scrollHeight;
+    }
+  }, []);
+
+  const onClickNewChat = () =>
+  {
+    setNewChat(null);
+    scrollToBottom();
+  };
+
   const { isLoading, mutate } = useMutation({
     mutationFn: fetchSendMessage,
-    onMutate: (value) => {
+    onMutate: (value) =>
+    {
       setSendMessage('');
-      scrollbarRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-      });
-
-      setTimeout(() => {
-        if (scrollbarRef.current) {
-          scrollbarRef.current.scrollTop = scrollbarRef.current.scrollHeight;
-        }
-      }, 50);
     },
     // onSettled: () =>
     //   queryClient.invalidateQueries(
     //     queryKey.GET_ROOM_MESSAGES(params.roomCode),
     //   ),
-    onSuccess: () => {
+    onSuccess: () =>
+    {
       queryClient.refetchQueries(queryKey.GET_ROOM_MESSAGES(params.roomCode));
+      scrollToBottom();
     },
-    onError: (error, value, rollback) => {
+    onError: (error, value, rollback) =>
+    {
       console.log(error);
     },
   });
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) =>
+  {
+    if (e.key === 'Enter' && !e.shiftKey)
+    {
       e.preventDefault();
       mutate({
         roomCode: params.roomCode,
@@ -75,11 +99,14 @@ function ChatBox({}: Props) {
   };
 
   const onMessage = useCallback(
-    (data: Message) => {
-      if (data.roomCode === params.roomCode) {
+    (data: Message) =>
+    {
+      if (data.roomCode === params.roomCode)
+      {
         queryClient.setQueryData(
           queryKey.GET_ROOM_MESSAGES(params.roomCode),
-          (prevMessageData: any) => {
+          (prevMessageData: any) =>
+          {
             return {
               ...prevMessageData,
               data: [
@@ -99,51 +126,66 @@ function ChatBox({}: Props) {
             };
           },
         );
-        setTimeout(() => {
-          if (scrollbarRef.current) {
-            scrollbarRef.current.scrollTop = scrollbarRef.current.scrollHeight;
-          }
-        }, 50);
+      }
+
+      if (isScrollBottom())
+      {
+        setTimeout(() =>
+        {
+          scrollToBottom();
+        }, 30);
+      }
+      else
+      {
+        setNewChat(data);
       }
     },
-    [queryClient, params.roomCode],
+    [queryClient, params.roomCode, scrollToBottom],
   );
 
   // socket?.emit('sendMessage', value.content);
-  useEffect(() => {
+  useEffect(() =>
+  {
     socket?.on('message', onMessage);
 
-    return () => {
+    return () =>
+    {
       socket?.off('message', onMessage);
     };
   }, [socket, onMessage]);
 
-  useEffect(() => {
-    if (meData && socket) {
+  useEffect(() =>
+  {
+    if (meData && socket)
+    {
       console.log(socket);
       socket.emit('join', meData.id);
     }
   }, [socket, meData]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(() =>
+  {
+    return () =>
+    {
       disconnect();
     };
   }, [params.roomCode, disconnect]);
 
-  useEffect(() => {
-    if (scrollbarRef.current) {
-      scrollbarRef.current.scrollTop = scrollbarRef.current.scrollHeight;
-    }
-  }, [scrollbarRef]);
+  useEffect(() =>
+  {
+    scrollToBottom();
+  }, [scrollToBottom]);
 
   return (
     <>
       <div
         ref={scrollbarRef}
-        className="flex flex-1 flex-col p-6 gap-4 overflow-auto"
+        className="flex flex-1 flex-col p-6 gap-4 overflow-auto relative"
       >
         {memoizedMessageItem}
+        {newChat ? <div className="flex items-center fixed bottom-[76px] left-[356px] z-10 bg-black text-white px-[12px] py-[6px] rounded opacity-60 cursor-pointer" onClick={onClickNewChat}>
+          {newChat.user.nickname}님이 새로운 메세지를 보내셨습니다.
+        </div> : undefined}
       </div>
       <ChatTextArea
         onSend={handleKeyDown}
